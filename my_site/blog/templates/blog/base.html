@@ -1,0 +1,171 @@
+﻿{% load static %}
+<!DOCTYPE html>
+<html>
+<head>
+
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+     <link href='http://fonts.googleapis.com/css?family=Roboto:400,100,100italic,300,300italic,400italic,500,500italic,700,700italic,900italic,900' rel='stylesheet' type='text/css'>   
+     <link rel="stylesheet" type="text/css" href="{% static 'blog/main.css' %}">
+     <link rel="stylesheet" type="text/css" href="{% static 'blog/main2.css' %}">
+     <link href='https://unpkg.com/boxicons@2.1.2/css/boxicons.min.css' rel='stylesheet'>
+
+    {% if title %}
+        <title>Блог</title>
+    {% else %}
+        <title>Блог</title>
+    {% endif %}
+</head>
+<body>
+  
+    <div class="sidebar">
+      <div class="logo-details">
+        <i class='bx bxl-javascript icon'></i>
+          <div class="logo_name">RAM IT</div>
+          <i class='bx bx-menu' id="btn" ></i>
+      </div>
+      <ul class="nav-list">
+        <li>
+            <i class='bx bx-search' ></i>
+           <input type="text" placeholder="Search...">
+           <span class="tooltip">Search</span>
+        </li>
+        <li>
+          <a href="{% url 'main_home' %}">
+            <i class='bx bx-home'></i>
+            <span class="links_name">Главная</span>
+          </a>
+           <span class="tooltip">Главная</span>
+        </li>
+        <li>
+          <a href="{% url 'blog-home' %}">
+            <i class='bx bx-grid-alt'></i>
+            <span class="links_name">Форум</span>
+          </a>
+           <span class="tooltip">Форум</span>
+        </li>
+        <li>
+          <a href="#news">
+            <i class='bx bx-news'></i>
+             <span class="links_name">Статьи</span>
+           </a>
+           <span class="tooltip">Статьи</span>
+         </li>
+        
+       {% if user.is_authenticated %}
+       <li>
+        <a href="{% url 'post-create' %}">
+          <i class='bx bx-pencil'></i>
+          <span class="links_name">Задать вопрос</span>
+        </a>
+        <span class="tooltip">Задать вопрос</span>
+      </li>
+      <li>
+        <a href="{% url 'profile' %}">
+          <i class='bx bx-user'></i>
+          <span class="links_name">Профиль</span>
+        </a>
+        <span class="tooltip">Профиль</span>
+      </li>
+      <li>
+        <a href="{% url 'logout' %}">
+          <i class='bx bx-user-minus'></i>
+          <span class="links_name">Выход</span>
+        </a>
+        <span class="tooltip">Выход</span>
+      </li>
+       <!-- <a class="nav-item nav-link" href="{% url 'post-create' %}">Задать вопрос</a>
+       <a class="nav-item nav-link" href="{% url 'profile' %}">Профиль</a>
+       <a class="nav-item nav-link" href="{% url 'logout' %}">Выход</a> -->
+     {% else %}
+     <li>
+      <a href="{% url 'login' %}">
+        <i class='bx bx-user-check'></i>
+        <span class="links_name">Вход</span>
+      </a>
+      <span class="tooltip">Вход</span>
+    </li>
+    <li>
+      <a href="{% url 'register' %}">
+        <i class='bx bx-user'></i>
+        <span class="links_name">Регистрация</span>
+      </a>
+      <span class="tooltip">Регистрация</span>
+    </li>
+       <!-- <a class="nav-item nav-link" href="{% url 'login' %}">Вход</a>
+
+       <a class="nav-item nav-link" href="{% url 'register' %}">Регистрация</a> -->
+     {% endif %}
+       <li>
+         <a href="settings.html">
+           <i class='bx bx-cog' ></i>
+           <span class="links_name">Настройки</span>
+         </a>
+         <span class="tooltip">Настройки</span>
+       </li>
+       <!-- <li class="profile">
+           <div class="profile-details">
+             <div class="name_job">
+               <div class="name">RAM IT</div>
+               <div class="job">Вход / Выход</div>
+             </div>
+           </div>
+           <a href="register.html">
+            <i class='bx bx-log-out' id="log_out" ></i>
+           </a>
+       </li> -->
+      </ul>
+    </div>
+
+    
+    <div class="home-section-2">
+      <div class="home-section">
+        <p style="padding-top: 70px;"></p>
+            <main role="main" class="container">
+              {% if messages %}
+                {% for message in messages %}
+                  <div class="alert alert-{{ message.tags }}">
+                    {{ message }}
+                  </div>
+                {% endfor %}
+              {% endif %}
+              {% block content %}{% endblock %}
+        </main>
+      </div>
+    </div>
+<p style="padding-top: 90px;"></p> 
+
+
+    <script>
+      let sidebar = document.querySelector(".sidebar");
+      let closeBtn = document.querySelector("#btn");
+      let searchBtn = document.querySelector(".bx-search");
+    
+      closeBtn.addEventListener("click", ()=>{
+        sidebar.classList.toggle("open");
+        menuBtnChange();//calling the function(optional)
+      });
+    
+      searchBtn.addEventListener("click", ()=>{ // Sidebar open when you click on the search iocn
+        sidebar.classList.toggle("open");
+        menuBtnChange(); //calling the function(optional)
+      });
+    
+      // following are the code to change sidebar button(optional)
+      function menuBtnChange() {
+       if(sidebar.classList.contains("open")){
+         closeBtn.classList.replace("bx-menu", "bx-menu-alt-right");//replacing the iocns class
+       }else {
+         closeBtn.classList.replace("bx-menu-alt-right","bx-menu");//replacing the iocns class
+       }
+      }
+      </script>
+
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+</body>
+</html>

@@ -1,0 +1,31 @@
+{% extends "blog/base.html" %}
+{% load crispy_forms_tags %}
+{% block content %}
+<style>
+    .content-regist{
+        color: white;
+    }
+    input{
+    cursor: pointer;
+}
+</style>
+    <div class="home-section">
+        <div class="content-section content-regist">
+            <form method="POST">
+                {% csrf_token %}
+                <fieldset class="form-group">
+                    <legend class="border-bottom mb-4">Добро пожаловать в RAM IT</legend>
+                    {{ form|crispy }}
+                </fieldset>
+                <div class="form-group">
+                    <button class="btn btn-outline-info" type="submit">Регистрация</button>
+                </div>
+            </form>
+            <div class="border-top pt-3">
+                <small class="text-muted">
+                    Уже есть аккаунт? <a class="ml-2" href="#">Вход</a>
+                </small>
+            </div>
+        </div>
+    </div>
+{% endblock content %}

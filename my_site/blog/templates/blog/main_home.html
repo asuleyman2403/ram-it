@@ -1,0 +1,96 @@
+{% extends "blog/base.html" %}
+  {% block content %}
+
+  <style>
+    .a-change{
+      color: white;
+      transition: .3s;
+    }
+    .a-change:hover{
+      text-decoration: none;
+      color: rgba(255, 255, 255, 0.773);
+    }
+  </style>
+
+  <div class="padding-for-width">
+    <div class="alert-sec">
+      <h5>Уважаемые гости, форум еще находиться в этапе доработки!</h5>
+    </div>
+  </div>
+  <p style="padding-top: 50px;"></p>
+  <div class="container-max-2 card-main-1">
+    <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3">
+      <div class="col">
+        <div class="card card-5" style="width: 18rem;">
+          <div class="card__icon">
+            <i class='bx bxl-python icon'></i>
+          </div>
+          <a href="#a" class="card__exit">
+            <i class='bx bx-news'></i>
+          </a>
+          <div class="text"><a class="news-hovers" href="#a">Python стал самым используемым языком программирования в 2023 году</a></div>
+          <p class="card__apply">
+            <a class="card__link" href="#a">Подробнее <i class='bx bx-right-arrow-alt'></i></a>
+          </p>
+        </div>
+      </div>
+      <div class="col">
+        <div class="card card-5" style="width: 18rem;">
+          <div class="card__icon">
+            <i class='bx bxl-c-plus-plus icon'></i>
+          </div>
+          <a href="#a" class="card__exit">
+            <i class='bx bx-news'></i>
+          </a>
+          <div class="text"><a class="news-hovers"
+          href="#a">Какие области применения имеет некогда очень популярный язык C++ в 2023 году?</a></div>
+          <p class="card__apply">
+            <a class="card__link" href="#a">Подробнее <i class='bx bx-right-arrow-alt'></i></a>
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <p style="padding-top: 20px;"></p>
+  <div class="padding-for-width">
+    <p style="color: white; font-weight: 500; font-size: 20px; background-color: black; text-align: center;
+  padding: 10px; border-radius: 10px; background: #11101dc1;
+  border: 1px solid rgba(0, 0, 0, 0.593);"><a class="a-change" href="{% url 'blog-home' %}">Вопросы из форума:</a></p>
+  </div>
+
+      {% for post in posts %}
+      <div class="padding-for-width">
+        <article class="media content-section">
+          <img class="rounded-circle article-img" src="{{ post.author.profile.image.url }}">
+          <div class="media-body">
+            <div class="article-metadata">
+              <a class="article-name" href="{% url 'user-posts' post.author.username %}">{{ post.author }}</a>
+              <small class="article-date">{{ post.date_posted|date:"F d, Y" }}</small>
+            </div>
+            <h2><a class="article-title" href="{% url 'post-detail' post.id %}">{{ post.title }}</a></h2>
+          </div>
+        </article>
+      </div>
+      {% endfor %}
+      <div class="pagination justify-content-center"> 
+      {% if is_paginated %}
+  
+        {% if page_obj.has_previous %}
+          
+         
+        {% endif %}
+  
+        {% for num in page_obj.paginator.page_range %}
+          {% if page_obj.number == num %}
+          {% elif num > page_obj.number|add:'-3' and num < page_obj.number|add:'3' %}
+          {% endif %}
+        {% endfor %}
+  
+        {% if page_obj.has_next %}
+          
+        {% endif %}
+  
+      {% endif %}
+    </div>
+  {% endblock content %}

@@ -1,0 +1,40 @@
+{% extends "blog/base.html" %}
+{% load crispy_forms_tags %}
+{% block content %}
+<style>
+  .text-secondary{
+    word-wrap: break-word;
+    font-size: 12px;
+  }
+  .media-body{
+    word-wrap: break-word;
+    padding-top: 20px;
+  }
+    .content-profile{
+        color: white;
+    }
+    input{
+    cursor: pointer;
+}
+</style>
+  <div class="content-section content-profile">
+    <div class="media">
+      <img class="rounded-circle account-img" src="{{ user.profile.image.url }}">
+      <div class="media-body">
+        <p class="account-header">{{ user.username }}</p>
+        <p class="text-secondary">{{ user.email }}</p>
+      </div>
+    </div>
+     <form method="POST" enctype="multipart/form-data">
+        {% csrf_token %}
+        <fieldset class="form-group">
+            <legend class="border-bottom mb-4">Ваш профиль</legend>
+            {{ u_form|crispy }}
+            {{ p_form|crispy }}
+        </fieldset>
+        <div class="form-group">
+            <button class="btn btn-outline-info" type="submit">Обновить</button>
+        </div>
+    </form>
+  </div>
+{% endblock content %}

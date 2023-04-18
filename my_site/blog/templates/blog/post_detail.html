@@ -1,0 +1,92 @@
+{% extends "blog/base.html" %}
+{% load crispy_forms_tags %}
+{% block content %}
+<style>
+  input{
+    border: none;
+    border-radius: 5px;
+    height: 40px;
+    width: 500px;
+    padding: 5px;
+    cursor: pointer;
+    border: 1px solid rgba(0, 0, 0, 0.507);
+  }
+  .center_something{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+  }
+
+  @media (max-width:800px){
+    input{
+      width: 350px;
+    }
+  }
+
+  @media (max-width:500px){
+    input{
+      width: 250px;
+    }
+  }
+</style>
+  <a class="back_link" href="{% url 'blog-home' %}"><i class='bx bxs-left-arrow-alt' ></i> Назад</a>
+<p></p>
+  <article class="media content-section">
+    <img class="rounded-circle article-img" src="{{ object.author.profile.image.url }}">
+    <div class="media-body">
+      <div class="article-metadata">
+        <a class="article-name" href="{% url 'user-posts' object.author.username %}">{{ object.author }}</a>
+        <small class="text-muted">{{ object.date_posted }}</small>
+        {% if object.author == user %}
+          <div>
+            <a class="btn btn-secondary btn-sm mt-1 mb-1" href="{% url 'post-update' object.id %}">Редактировать</a>
+            <a class="btn btn-danger btn-sm mt-1 mb-1" href="{% url 'post-delete' object.id %}">Удалить</a>
+          </div>
+        {% endif %}
+      </div>
+      <div class="media-body-2">
+        <h2 class="article-title">{{ object.title }}</h2>
+      <p class="article-content">{{ object.content }}</p>
+      </div>
+    </div>
+  </article>
+          <div style="padding-top: 30px;">
+          <div class="center_something">
+            {% if user.is_authenticated %}
+            <p style="color: white; font-weight: 700;">Ответьте на вопрос:</p>
+            <form class="form-answer" action="/post/{{object.id}}/create-answer" method="POST">
+              {% csrf_token %}
+              {% for field in form %}
+                {{ field }}
+                {{ field.errors }}
+              {% endfor %}
+              <div class="button-send-answer">
+                <button class="btn btn-answer" type="submit"><i class='bx bx-send'></i></button>
+              </div>
+            </form>
+            {% else %}
+            <p style="color: white; font-weight: 500;">Чтобы ответить на вопрос, <a href="{% url 'login' %}" class="a-change-2">войдите</a> в аккаунт!</p>
+            {% endif %}
+          </div>
+          <div>
+          <div style="padding-top: 30px;">
+          {% for answer in answers %}
+          <article class="media content-section">
+            <img class="rounded-circle article-img" src="{{ answer.author.profile.image.url }}">
+            <div class="media-body">
+              <div class="article-metadata">
+            <a class="article-name" href="{% url 'user-posts' object.author.username %}">{{ answer.author }} </a>
+            <small class="text-muted">{{ answer.date_posted }}</small>
+              </div>
+            <p style="color:white;">  {{ answer.content }}</p>
+          </article>
+          <!-- <div class="media content-section">
+            <p>{{ answer.author.username }}</p>
+            {{ answer.id }} {{ answer.content }} 
+          </div> -->
+          {% endfor %}
+        </div>
+        </div>
+<p style="padding-top: 90px;"></p>
+{% endblock content %}

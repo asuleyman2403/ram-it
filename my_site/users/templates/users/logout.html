@@ -1,0 +1,26 @@
+{% extends "blog/base.html" %}
+{% block content %}
+<style>
+    *{
+        color: white;
+    }
+    .logout_text{
+        color: white;
+        font-size: 16px;
+        transition: .3s;
+    }
+    .logout_text:hover{
+        text-decoration: none;
+        color: rgba(255, 255, 255, 0.612);
+    }
+</style>
+    <div class="home-section">
+        <h2 style="color: white;">Вы вышли из своей учетной записи</h2>
+    <div class="border-top pt-3">
+        <small class="text-muted">
+            <a class="logout_text" href="{% url 'login' %}">Войти</a>
+        </small>
+    </div>
+    </div>
+    <div style="padding-top: 390px;"></div>
+{% endblock content %}

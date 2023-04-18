@@ -1,0 +1,35 @@
+{% extends "blog/base.html" %}
+{% load crispy_forms_tags %}
+{% block content %}
+<style>
+.content-create{
+    color: white;
+}
+input{
+    cursor: pointer;
+}
+
+textarea{
+    cursor: pointer;
+}
+
+textarea{
+  background-color: gray;
+}
+
+</style>
+<div class="home-section content-create">
+    <div class="content-section">
+        <form method="POST">
+            {% csrf_token %}
+            <fieldset class="form-group">
+                <legend class="border-bottom mb-4">Новая запись</legend>
+                {{ form|crispy }}
+            </fieldset>
+            <div class="form-group">
+                <button class="btn btn-outline-info" type="submit">Сохранить</button>
+            </div>
+        </form>
+    </div>
+</div>
+{% endblock content %}
